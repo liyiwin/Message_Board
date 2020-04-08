@@ -9,10 +9,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 
-
-
-
-
 data class like_bean
 (
   val id: Int,
@@ -83,61 +79,6 @@ data class Article_fundation_data (
 
 )
 
-
-
-public  interface Load_all_data_Interface{
-
-    @GET("api/board")
-
-    fun get_call (): retrofit2.Call<MutableList<Article_fundation_data>>
-
-}
-
-
-
-fun load_all_data(viewModel:ViewModel_Board,activity: Activity){
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://fa2271b1.ngrok.io")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val request =  retrofit.create(Load_all_data_Interface::class.java)
-
-        val call  =  request.get_call()
-
-        call.enqueue(object : retrofit2.Callback<MutableList<Article_fundation_data>>{
-            override fun onFailure(
-                call: retrofit2.Call<MutableList<Article_fundation_data>>?,
-                t: Throwable?
-            ) {
-
-            }
-
-            override fun onResponse(
-                call: retrofit2.Call<MutableList<Article_fundation_data>>?,
-                response: retrofit2.Response<MutableList<Article_fundation_data>>?
-            ) {
-
-                val list = response!!.body()
-
-                val code = response.code()
-
-                if (code == 200){
-
-                    activity.runOnUiThread {
-
-                    viewModel.set_essay_list(list)
-
-
-                }}
-
-
-            }
-
-
-        })
-
-}
 
 
 // 僅顯示按讚回覆
@@ -214,20 +155,6 @@ data class Add_article_body
   val content:String
 
 )
-
-
-public  interface add_article_list_Interface{
-
-    //("Authorization:Bearer $token")
-
-    @POST("api/storePost")
-
-    fun get_call (@Body body:Add_article_body, @Header("0")token:String ): retrofit2.Call<Add_article_result>
-
-}
-
-
-
 
 
 
